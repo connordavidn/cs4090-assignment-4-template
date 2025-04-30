@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from datetime import datetime
 
 # File path for task storage
@@ -100,11 +101,11 @@ def search_tasks(tasks, query):
     Returns:
         list: Filtered list of tasks matching the search query
     """
-    query = query.lower()
+    terms = re.split(r"\W+", query.lower())
     return [
         task for task in tasks 
-        if query in task.get("title", "").lower() or 
-           query in task.get("description", "").lower()
+        if len([term for term in terms if term in re.split(r"\W+", task.get("title", "").lower()) or 
+           term in re.split(r"\W+", task.get("description", "").lower())]) == len(terms)
     ]
 
 def get_overdue_tasks(tasks):
