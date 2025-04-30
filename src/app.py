@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-from tasks import load_tasks, save_tasks, filter_tasks_by_priority, filter_tasks_by_category
+from tasks import *
 
 def main():
     st.title("To-Do Application")
@@ -21,9 +21,9 @@ def main():
         task_due_date = st.date_input("Due Date")
         submit_button = st.form_submit_button("Add Task")
         
-        if submit_button and task_title:
+        if submit_button and task_title and datetime.now().date() <= task_due_date:
             new_task = {
-                "id": len(tasks) + 1,
+                "id": generate_unique_id(tasks),
                 "title": task_title,
                 "description": task_description,
                 "priority": task_priority,
@@ -55,7 +55,8 @@ def main():
     if filter_priority != "All":
         filtered_tasks = filter_tasks_by_priority(filtered_tasks, filter_priority)
     if not show_completed:
-        filtered_tasks = [task for task in filtered_tasks if not task["completed"]]
+        completed_tasks = filter_tasks_by_completion(filtered_tasks, True)
+        filtered_tasks = [task for task in filtered_tasks if not task in completed_tasks]
     
     # Display tasks
     for task in filtered_tasks:
