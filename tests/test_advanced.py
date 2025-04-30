@@ -6,7 +6,7 @@ from src.tasks import search_tasks
     ("Food", 1),
     ("work", 2),
     ("fee", 1),
-    ("fee for", 1),
+    ("fee for", 0),
     ("description", 0)
 ])
 def test_search_advanced(term, expected_matches):

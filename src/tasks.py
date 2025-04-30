@@ -101,11 +101,11 @@ def search_tasks(tasks, query):
     Returns:
         list: Filtered list of tasks matching the search query
     """
-    terms = re.split(r"\W+", query.lower())
+    query = r"\b{}\b".format(query.lower())
     return [
         task for task in tasks 
-        if len([term for term in terms if term in re.split(r"\W+", task.get("title", "").lower()) or 
-           term in re.split(r"\W+", task.get("description", "").lower())]) == len(terms)
+        if re.search(query, task.get("title", "").lower()) or 
+           re.search(query, task.get("description", "").lower())
     ]
 
 def get_overdue_tasks(tasks):
