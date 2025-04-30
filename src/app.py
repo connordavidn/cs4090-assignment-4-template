@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 from tasks import *
+import subprocess
+from os import path
 
 def main():
     st.title("To-Do Application")
@@ -79,6 +81,50 @@ def main():
                 tasks = [t for t in tasks if t["id"] != task["id"]]
                 save_tasks(tasks)
                 st.rerun()
+
+    st.sidebar.header("Testing & Analysis")
+    directory = path.dirname(path.dirname(__file__))
+    directory = directory if directory else "../"
+
+    if st.sidebar.button("Unit Tests"):
+        with st.spinner("Running unit tests..."):
+            result = subprocess.run(
+                [".venv/bin/python", "-m", "pytest", "tests/test_basic.py", "-v"],
+                cwd=directory, capture_output=True, text=True
+            )
+            st.code(result.stdout)
+
+    if st.sidebar.button("Parameterized Tests"):
+        with st.spinner("Running parameterized tests..."):
+            result = subprocess.run(
+                [".venv/bin/python", "-m", "pytest", "tests/test_advanced.py", "-v"],
+                cwd=directory, capture_output=True, text=True
+            )
+            st.code(result.stdout)
+
+    if st.sidebar.button("Full Coverage Report"):
+        with st.spinner("Running all tests and generating coverage report..."):
+            result = subprocess.run(
+                [".venv/bin/python", "-m", "pytest", "tests/", "--cov=src.tasks", "--cov-report=term-missing", "--cov-report=html"],
+                cwd=directory, capture_output=True, text=True
+            )
+            st.code(result.stdout)
+
+    if st.sidebar.button("TDD Tests"):
+        with st.spinner("Running TDD tests..."):
+            result = subprocess.run(
+                [".venv/bin/python", "-m", "pytest", "tests/test_tdd.py", "-v"],
+                cwd=directory, capture_output=True, text=True
+            )
+            st.code(result.stdout)
+
+    if st.sidebar.button("BDD Tests"):
+        with st.spinner("Running BDD tests..."):
+            result = subprocess.run(
+                [".venv/bin/python", "-m", "pytest", "tests/feature", "-v"],
+                cwd=directory, capture_output=True, text=True
+            )
+            st.code(result.stdout)
 
 if __name__ == "__main__":
     main()
