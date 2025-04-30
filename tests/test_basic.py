@@ -53,9 +53,9 @@ def test_filter_tasks_by_priority_unmatched():
 
 def test_filter_tasks_by_category():
     task1 = {"id": 1, "title": "Test", "category": "Work"}
-    task2 = {"id": 2, "title": "Test", "category": "Home"}
+    task2 = {"id": 2, "title": "Test", "category": "Personal"}
     task3 = {"id": 3, "title": "Test", "category": "Work"}
-    task4 = {"id": 4, "title": "Test", "category": "Home"}
+    task4 = {"id": 4, "title": "Test", "category": "Personal"}
     tasks = [task1, task2, task3, task4]
     filtered_tasks = filter_tasks_by_category(tasks, "Work")
     work_category = [task1, task3]
@@ -64,7 +64,7 @@ def test_filter_tasks_by_category():
 def test_filter_tasks_by_category_unmatched():
     task1 = {"id": 1, "title": "Test", "category": "Work"}
     tasks = [task1]
-    filtered_tasks = filter_tasks_by_category(tasks, "Home")
+    filtered_tasks = filter_tasks_by_category(tasks, "School")
     assert filtered_tasks == []
 
 def test_search_titles_and_descriptions():
