@@ -1,6 +1,6 @@
 import pytest
 import os
-from src.tasks import DEFAULT_TASKS_FILE, save_tasks, load_tasks, generate_unique_id, filter_tasks_by_priority, filter_tasks_by_category, search_tasks
+from src.tasks import DEFAULT_TASKS_FILE, save_tasks, load_tasks, generate_unique_id, filter_tasks_by_priority, filter_tasks_by_category, filter_tasks_by_completion, search_tasks
 
 def test_save_load_tasks(tmp_path):
     file = tmp_path / DEFAULT_TASKS_FILE
@@ -65,6 +65,21 @@ def test_filter_tasks_by_category_unmatched():
     task1 = {"id": 1, "title": "Test", "category": "Work"}
     tasks = [task1]
     filtered_tasks = filter_tasks_by_category(tasks, "School")
+    assert filtered_tasks == []
+
+def test_filter_tasks_by_completion():
+    task1 = {"id": 1, "title": "Test", "completed": True}
+    task2 = {"id": 2, "title": "Test", "completed": False}
+    task3 = {"id": 3, "title": "Test", "completed": True}
+    tasks = [task1, task2, task3]
+    filtered_tasks = filter_tasks_by_completion(tasks, True)
+    completed = [task1, task3]
+    assert filtered_tasks == completed
+
+def test_filter_tasks_by_completion_unmatched():
+    task2 = {"id": 2, "title": "Test", "completed": False}
+    tasks = [task2]
+    filtered_tasks = filter_tasks_by_completion(tasks, True)
     assert filtered_tasks == []
 
 def test_search_titles_and_descriptions():
