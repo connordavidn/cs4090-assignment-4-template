@@ -93,17 +93,14 @@ def main():
     st.sidebar.header("Testing & Analysis")
     directory = path.dirname(path.dirname(path.abspath(__file__)))
     directory = directory if directory else "../"
-    print(directory)
-
-    if st.sidebar.button("Make Virtual Environment Executable"):
-        with st.spinner(""):
-            result = subprocess.run(["chmod +x .venv/bin/python"], cwd=directory, capture_output=True, text=True, shell=True)
-            st.code(result.stdout)
+    virtual = st.sidebar.checkbox("Use Virtual Environment (Only use if personally configured)")
+    python_command = ".venv/bin/python" if virtual else "python"
+    
 
     if st.sidebar.button("Unit Tests"):
         with st.spinner("Running unit tests..."):
             result = subprocess.run(
-                [".venv/bin/python", "-m", "pytest", "tests/test_basic.py", "-v"],
+                [python_command, "-m", "pytest", "tests/test_basic.py", "-v"],
                 cwd=directory, capture_output=True, text=True
             )
             st.code(result.stdout)
@@ -111,7 +108,7 @@ def main():
     if st.sidebar.button("Parameterized Tests"):
         with st.spinner("Running parameterized tests..."):
             result = subprocess.run(
-                [".venv/bin/python", "-m", "pytest", "tests/test_advanced.py", "-v"],
+                [python_command, "-m", "pytest", "tests/test_advanced.py", "-v"],
                 cwd=directory, capture_output=True, text=True
             )
             st.code(result.stdout)
@@ -119,7 +116,7 @@ def main():
     if st.sidebar.button("Full Coverage Report"):
         with st.spinner("Running all tests and generating coverage report..."):
             result = subprocess.run(
-                [".venv/bin/python", "-m", "pytest", "tests/", "--cov=src.tasks", "--cov-report=term-missing", "--cov-report=html"],
+                [python_command, "-m", "pytest", "tests/", "--cov=src.tasks", "--cov-report=term-missing", "--cov-report=html"],
                 cwd=directory, capture_output=True, text=True
             )
             st.code(result.stdout)
@@ -127,7 +124,7 @@ def main():
     if st.sidebar.button("TDD Tests"):
         with st.spinner("Running TDD tests..."):
             result = subprocess.run(
-                [".venv/bin/python", "-m", "pytest", "tests/test_tdd.py", "-v"],
+                [python_command, "-m", "pytest", "tests/test_tdd.py", "-v"],
                 cwd=directory, capture_output=True, text=True
             )
             st.code(result.stdout)
@@ -135,7 +132,7 @@ def main():
     if st.sidebar.button("BDD Tests"):
         with st.spinner("Running BDD tests..."):
             result = subprocess.run(
-                [".venv/bin/python", "-m", "pytest", "tests/feature", "-v"],
+                [python_command, "-m", "pytest", "tests/feature", "-v"],
                 cwd=directory, capture_output=True, text=True
             )
             st.code(result.stdout)
