@@ -42,11 +42,13 @@ def main():
     st.header("Your Tasks")
     
     # Filter options
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         filter_category = st.selectbox("Filter by Category", ["All"] + list(set([task["category"] for task in tasks])))
     with col2:
         filter_priority = st.selectbox("Filter by Priority", ["All", "High", "Medium", "Low"])
+    with col3:
+        sorting_option = st.selectbox("Sorting:", ["Default", "Upcoming Due Date", "Title", "Highest Priority"])
     
     show_completed = st.checkbox("Show Completed Tasks")
     
@@ -59,6 +61,12 @@ def main():
     if not show_completed:
         completed_tasks = filter_tasks_by_completion(filtered_tasks, True)
         filtered_tasks = [task for task in filtered_tasks if not task in completed_tasks]
+    if sorting_option == "Upcoming Due Date":
+        filtered_tasks = sort_tasks_by_due_date_upcoming(filtered_tasks)
+    if sorting_option == "Title":
+        filtered_tasks = sort_tasks_by_title(filtered_tasks)
+    if sorting_option == "Highest Priority":
+        filtered_tasks = sort_tasks_by_high_priority(filtered_tasks)
     
     # Display tasks
     for task in filtered_tasks:
