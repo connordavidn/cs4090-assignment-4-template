@@ -124,3 +124,19 @@ def get_overdue_tasks(tasks):
         if not task.get("completed", False) and 
            task.get("due_date", "") < today
     ]
+
+
+
+def sort_tasks_by_due_date_upcoming(tasks):
+    todays_date = datetime.now().date().strftime("%Y-%m-%d")
+    min_day = datetime.min.date().strftime("%Y-%m-%d")
+    filtered_tasks = [task for task in tasks if task.get("due_date", min_day) >= todays_date]
+    return sorted(filtered_tasks, key=lambda task: task.get("due_date", ""))
+
+def sort_tasks_by_title(tasks):
+    #TODO
+    return tasks
+
+def sort_tasks_by_high_priority(tasks):
+    #TODO
+    return tasks
