@@ -91,8 +91,9 @@ def main():
                 st.rerun()
 
     st.sidebar.header("Testing & Analysis")
-    directory = path.dirname(path.dirname(__file__))
+    directory = path.dirname(path.dirname(path.abspath(__file__)))
     directory = directory if directory else "../"
+    print(directory)
 
     if st.sidebar.button("Unit Tests"):
         with st.spinner("Running unit tests..."):
