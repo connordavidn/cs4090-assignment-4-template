@@ -134,9 +134,7 @@ def sort_tasks_by_due_date_upcoming(tasks):
     return sorted(filtered_tasks, key=lambda task: task.get("due_date", ""))
 
 def sort_tasks_by_title(tasks):
-    #TODO
-    return tasks
+    return sorted(tasks, key=lambda task: task.get("title", ""))
 
 def sort_tasks_by_high_priority(tasks):
-    #TODO
-    return tasks
+    return sorted(tasks, key=lambda task: ["High", "Medium", "Low", ""].index(task.get("priority", "")))
