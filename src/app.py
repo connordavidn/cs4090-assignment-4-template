@@ -95,9 +95,9 @@ def main():
     directory = directory if directory else "../"
     print(directory)
 
-    if st.sidebar.button("Print Directory Items"):
+    if st.sidebar.button("Make Virtual Environment Executable"):
         with st.spinner(""):
-            result = subprocess.run(["ls -a .venv/bin"], cwd=directory, capture_output=True, text=True, shell=True)
+            result = subprocess.run(["chmod +x .venv/bin/python"], cwd=directory, capture_output=True, text=True, shell=True)
             st.code(result.stdout)
 
     if st.sidebar.button("Unit Tests"):
