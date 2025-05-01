@@ -97,7 +97,7 @@ def main():
 
     if st.sidebar.button("Print Directory Items"):
         with st.spinner(""):
-            result = subprocess.run(["ls -a"], cwd=directory, capture_output=True, text=True, shell=True)
+            result = subprocess.run(["ls -a .venv/bin"], cwd=directory, capture_output=True, text=True, shell=True)
             st.code(result.stdout)
 
     if st.sidebar.button("Unit Tests"):
